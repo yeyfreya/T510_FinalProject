@@ -5,8 +5,8 @@ import tensorflow as tf
 from tempfile import NamedTemporaryFile
 from streamlit_audio_recorder import st_audio_recorder
 
-
-MODEL_PATH = 'tone_recognition.h5'
+# v2
+MODEL_PATH = 'tone_recognition.h5' 
 
 @st.cache(allow_output_mutation=True)
 def load_model():
