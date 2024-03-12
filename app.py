@@ -3,7 +3,7 @@ import librosa
 import numpy as np
 import tensorflow as tf
 from tempfile import NamedTemporaryFile
-from streamlit_audiorec import st_audio_recorder
+from streamlit_audio_recorder import st_audio_recorder
 
 
 MODEL_PATH = 'tone_recognition.h5'
@@ -57,34 +57,30 @@ def extract_features(audio, sr):
 def main():
     st.title('Real-Time Speech Emotion Recognition')
 
-    # Streamlit audio recorder for capturing user input
-    audio_data = st_audio_recorder()
-    
+    # Custom Streamlit audio recorder for capturing user input
+    audio_data = st_audiorec()
+
     if audio_data is not None:
         # Save temporary audio file
-        with NamedTemporaryFile(delete=False) as tmp_file:
-            tmp_file.write(audio_data.read())
+        with NamedTemporaryFile(delete=True) as tmp_file:
+            tmp_file.write(audio_data)
+            tmp_file.seek(0)
             audio_file = tmp_file.name
         
-        # Display an audio player to play user's recording
-        st.audio(audio_file, format='audio/wav', start_time=0)
-        
-        # Preprocess and predict
-        if st.button('Analyze Emotion'):
-            features = preprocess_audio(audio_file)
-            prediction = model.predict(features)
-            
-            # Assuming your model's output is categorical, e.g., [0, 1, 2, ...]
-            predicted_emotion = np.argmax(prediction)
-            
-            # Map your model's integer outputs back to emotion labels
-            emotions = ['happy', 'sad', 'angry', 'neutral']  # Example
-            predicted_emotion_label = emotions[predicted_emotion]
-            
-            st.write(f"Predicted Emotion: {predicted_emotion_label}")
+            # Display an audio player to play user's recording
+            st.audio(audio_file, format='audio/wav')
+
+            # Preprocess and predict
+            if st.button('Analyze Emotion'):
+                features = preprocess_audio(audio_file)
+                prediction = model.predict(features)
+                predicted_emotion = np.argmax(prediction)
+                
+                # Map your model's integer outputs back to emotion labels
+                emotions = ['happy', 'sad', 'angry', 'neutral']  # Example
+                predicted_emotion_label = emotions[predicted_emotion]
+                
+                st.write(f"Predicted Emotion: {predicted_emotion_label}")
 
 if __name__ == '__main__':
     main()
-
-
-

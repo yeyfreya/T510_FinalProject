@@ -2,4 +2,4 @@ streamlit
 librosa
 numpy
 tensorflow
-streamlit_audiorec
+streamlit-audio-recorder
