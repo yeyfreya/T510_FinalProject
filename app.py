@@ -77,7 +77,7 @@ def main():
                 predicted_emotion = np.argmax(prediction)
                 
                 # Map your model's integer outputs back to emotion labels
-                emotions = ['happy', 'sad', 'angry', 'neutral']  # Example
+                emotions = ['happy', 'sad', 'angry', 'neutral', 'calm', 'disgust', 'fear', 'surprise']  
                 predicted_emotion_label = emotions[predicted_emotion]
                 
                 st.write(f"Predicted Emotion: {predicted_emotion_label}")
