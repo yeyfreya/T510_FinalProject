@@ -3,7 +3,7 @@ import librosa
 import numpy as np
 import tensorflow as tf
 from tempfile import NamedTemporaryFile
-from streamlit_audio_recorder import st_audio_recorder
+from streamlit_audiorec import st_audio_recorder
 
 
 MODEL_PATH = 'tone_recognition.h5'
