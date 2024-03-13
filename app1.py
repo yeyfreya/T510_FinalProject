@@ -57,8 +57,35 @@ def extract_features(audio, sr):
 def main():
     st.title('Real-Time Speech Emotion Recognition')
 
+    # Initialize the list in session state if it doesn't exist
+    if 'emotion_history' not in st.session_state:
+        st.session_state.emotion_history = []
+
+    # Mapping of emotions to colors
+    emotion_colors = {
+        'happy': 'yellow',
+        'sad': '#0000FF',  # Using hex color codes
+        'angry': 'red',
+        'neutral': 'grey',
+        'calm': 'green',
+        'disgust': 'purple',
+        'fear': 'black',
+        'surprise': 'orange'
+    }
+
     # Custom Streamlit audio recorder for capturing user input
     audio_data = st_audiorec()
+
+    # Always display the history of predicted emotions
+    if st.session_state.emotion_history:
+        st.write("Predicted Emotions History:")
+        for emotion in st.session_state.emotion_history:
+            # Use the emotion_colors dictionary to get the corresponding color
+            color = emotion_colors.get(emotion, "black")  # Default color is black if emotion not found
+            # Display each emotion in its corresponding color
+            st.markdown(f'<span style="color: {color};">{emotion}</span>', unsafe_allow_html=True)
+    else:
+        st.write("No emotions predicted yet.")
 
     if audio_data is not None:
         # Save temporary audio file
@@ -78,23 +105,13 @@ def main():
                 
                 # Map your model's integer outputs back to emotion labels
                 emotions = ['happy', 'sad', 'angry', 'neutral', 'calm', 'disgust', 'fear', 'surprise']
-                colors = {
-                    'happy': '#FFFF00',  # Yellow
-                    'sad': '#0000FF',    # Blue
-                    'angry': '#FF0000',  # Red
-                    'neutral': '#808080',# Grey
-                    'calm': '#00FFFF',   # Cyan
-                    'disgust': '#008000',# Green
-                    'fear': '#800080',   # Purple
-                    'surprise': '#FFA500' # Orange
-                }
-                
                 predicted_emotion_label = emotions[predicted_emotion]
-                color = colors[predicted_emotion_label]
-
-                # Use custom HTML and CSS to display the predicted emotion with its corresponding color
-                st.markdown(f"<h2 style='text-align: center; color: white; background-color: {color}; padding: 10px;'>Predicted Emotion: {predicted_emotion_label}</h2>", unsafe_allow_html=True)
+                
+                # Append the new predicted emotion to the history
+                st.session_state.emotion_history.append(predicted_emotion_label)
 
 if __name__ == '__main__':
     main()
+
+
 
