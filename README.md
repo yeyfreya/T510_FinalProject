@@ -69,4 +69,6 @@ A specific solution for capturing audio within Streamlit apps was introduced thr
 We learned the process for exporting machine learning models trained in Google Colab to be used in external applications, such as Streamlit apps. This includes saving the model, downloading it from Colab, and loading it into the Streamlit app for inference.
  
 #### 2. What questions/problems did you face?
-has context menu
+1. When we deploy our ML model in streamlit, we find the accuracy is very off while our ML model itself has a decent accuracy. The model we trained in colab notebook has a 0.75 accuracy but when transitioning to streamlit, the prediction is very inaccurate. The model we exported from Teachable Machine is slightly better when transitioning into streamlit web app.
+   
+2. When training the model, we tried to use CNN + LSTM as our model and used large datasets and we ran into insufficient RAM issue in Colab Notebook.
